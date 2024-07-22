@@ -13,9 +13,12 @@ app.use('/', productRoutes);
 
 /*
  git init
+ git remote add origin git@github.com:mujeeb517/cgc-node-b2.git
  git status
 
  git add --all / git add .
+ git commit -m "initial commit"
+ git push origin main
 
 tracked files/ untracked files
 working area
