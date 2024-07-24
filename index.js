@@ -9,19 +9,34 @@ app.listen(3000, () => console.log('Server is running 3000'));
 app.use('/', homeRoutes);
 app.use('/', productRoutes);
 
-
-
 /*
- git init
- git remote add origin git@github.com:mujeeb517/cgc-node-b2.git
- git status
+REST: Concept
+    Representational state transfer
+    Everything is a resource
+    Resources are accessed by URL
 
- git add --all / git add .
- git commit -m "initial commit"
- git push origin main
+    CRUD: Create, Read, Update and Delete
 
-tracked files/ untracked files
-working area
-staging area
-commit
-*/
+    Read:
+    URL: localhost:3000/products
+    URL: localhost:3000/products/1
+
+    Principles:
+    1. Uniform interface 
+    2. Client server
+    3. Cacheability
+    4. Layered System
+    5. Stateless
+
+Http Verbs: GET(read), POST(create), PUT(update), DELETE(delete), PATCH(partial update)
+
+GET: localhost:3000/products (safe operation)
+POST: localhost:3000/products
+PUT: localhost:3000/products/1
+PATCH: localhost:3000/products/1
+DELETE: localhost:3000/products/1
+
+client - server
+            service 2
+                service 3
+*/ 

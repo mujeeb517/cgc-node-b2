@@ -1,7 +1,9 @@
 const express = require('express');
-const getAll = require('./../controllers/productCtrl');
+const productCtrl = require('./../controllers/productCtrl');
 const router = express.Router();
 
-router.get('/products', getAll);
+router.get('/products', productCtrl.getAll);
+router.get('/products/:id', productCtrl.getById);
+router.delete('/products/:id', productCtrl.remove);
 
 module.exports = router;
