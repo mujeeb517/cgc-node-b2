@@ -67,14 +67,79 @@ function remove(req, res) {
     res.send();
 }
 
+function isValid(payload) {
+    return payload.brand && payload.model && payload.price;
+}
+
+function create(req, res) {
+    const payload = req.body;
+
+    if (isValid(payload)) {
+        products.push(payload);
+
+        res.status(201); // Created
+        res.send('Successfully created');
+    }
+    else {
+        res.status(400); // Bad request
+        res.send('Invalid payload');
+    }
+}
+
+function update(req, res) {
+    const id = +req.params.id;
+    const payload = req.body;
+
+    if (!isValid(payload)) {
+        res.status(400);
+        res.send('Invalid payload');
+        return;
+    }
+    for (let i = 0; i < products.length; i++) {
+        if (products[i].id === id) {
+            products[i].brand = payload.brand;
+            products[i].model = payload.model;
+            products[i].price = payload.price;
+            products[i].inStock = payload.inStock;
+        }
+    }
+
+    res.status(204);
+    res.send();
+}
+
+function patch(req, res) {
+    const id = +req.params.id;
+    const payload = req.body;
+
+    // for (let i = 0; i < products.length; i++) {
+    //     if (products[i].id === id) {
+    //         const product = products[i];
+    //         for (let key in payload) {
+    //             product[key] = payload[key];
+    //         }
+    //     }
+    // }
+
+    const product = products.find(elem => elem.id === id);
+    if (!product) {
+        res.status(404);
+        res.send('Not found');
+    } else {
+        for (let key in payload) {
+            product[key] = payload[key];
+        }
+
+        res.status(204);
+        res.send();
+    }
+}
 
 module.exports = {
     getAll,
     getById,
-    remove
+    remove,
+    create,
+    update,
+    patch,
 };
-
-
-// index.js -> routes -> ctrl
-
-// URL: DELETE localhost:3000/products/:id
