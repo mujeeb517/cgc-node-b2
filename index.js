@@ -1,10 +1,15 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const homeRoutes = require('./routes/homeRoutes');
 const productRoutes = require('./routes/productRoutes');
 
 const app = express();
 
 app.listen(3000, () => console.log('Server is running 3000'));
+
+mongoose.connect('mongodb://localhost:27017/cgc-b2')
+    .then(() => console.log('db connected successfully'))
+    .catch(err => console.error(err));
 
 app.use(express.json());
 
