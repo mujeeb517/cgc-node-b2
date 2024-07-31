@@ -1,22 +1,29 @@
 const Product = require('../models/productModel');
+const productRepo = require('../repositories/productRepo');
 
 const getAll = async (req, res) => {
-    // Product.find()
-    //     .then(data => {
-    //         res.status(200);
-    //         res.json(data);
-    //     })
-    //     .catch(() => {
-    //         res.status(500); // Internal server error
-    //         res.send('Internal server error');
-    //     });
+    let currentPage = req.params.page || 1;
+    let pageSize = req.params.limit || 10;
+
     try {
-        const data = await Product.find({}, { __v: 0 });
+        const count = await productRepo.getCount();
+        const totalPages = Math.ceil(count / pageSize);
+
+        const data = await productRepo.getAll(currentPage, pageSize);
+        const metadata = {
+            count,
+            totalPages,
+        };
+
+        const response = {
+            metadata,
+            data,
+        };
         res.status(200);
-        res.json(data);
+        res.json(response);
     } catch (err) {
         res.status(500);
-        res.send('Internal server error')
+        res.send('Internal server error');
     }
 };
 
@@ -89,6 +96,3 @@ module.exports = {
     put,
     patch,
 };
-
-
-//  
