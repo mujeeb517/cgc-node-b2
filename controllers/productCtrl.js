@@ -1,4 +1,3 @@
-const Product = require('../models/productModel');
 const productRepo = require('../repositories/productRepo');
 
 const getAll = async (req, res) => {
@@ -30,9 +29,7 @@ const getAll = async (req, res) => {
 const getById = async (req, res) => {
     try {
         const id = req.params.id;
-
-        // const data = await Product.findOne({ _id: id }, { __v: 0 });
-        const data = await Product.findById(id, { __v: 0 });
+        const data = await productRepo.getById(id);
         res.status(200);
         res.json(data);
     } catch (err) {
@@ -42,12 +39,7 @@ const getById = async (req, res) => {
 };
 
 const post = async (req, res) => {
-    const body = req.body;
-    body.createdDate = new Date();
-    body.updatedDate = new Date();
-    const product = new Product(body);
-
-    await product.save();
+    await productRepo.create(req.body);
     res.status(201);
     res.send('Successfully created');
 };
@@ -55,8 +47,7 @@ const post = async (req, res) => {
 const remove = async (req, res) => {
     try {
         const id = req.params.id;
-
-        await Product.deleteOne({ _id: id });
+        await productRepo.remove(id);
         res.status(204);
         res.send();
     } catch (err) {
@@ -68,8 +59,7 @@ const remove = async (req, res) => {
 const put = async (req, res) => {
     const id = req.params.id;
     const payload = req.body;
-
-    await Product.updateOne({ _id: id }, payload);
+    await productRepo.update(id, payload);
     res.status(204);
     res.send();
 };
@@ -77,13 +67,7 @@ const put = async (req, res) => {
 const patch = async (req, res) => {
     const id = req.params.id;
     const payload = req.body;
-
-    const updateObj = {};
-    for (let key in payload) {
-        updateObj[key] = payload[key];
-    }
-
-    await Product.updateOne({ _id: id }, { $set: updateObj });
+    await productRepo.patch(id, payload);
     res.status(204);
     res.send();
 };
