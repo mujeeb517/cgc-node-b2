@@ -1,14 +1,14 @@
 const productRepo = require('../repositories/productRepo');
 
 const getAll = async (req, res) => {
-    let currentPage = req.params.page || 1;
-    let pageSize = req.params.limit || 10;
-
+    const currentPage = +req.params.page || 1;
+    const pageSize = +req.params.limit || 10;
+    const search = req.query.search || '';
     try {
-        const count = await productRepo.getCount();
+        const count = await productRepo.getCount(search);
         const totalPages = Math.ceil(count / pageSize);
 
-        const data = await productRepo.getAll(currentPage, pageSize);
+        const data = await productRepo.getAll(currentPage, pageSize, search);
         const metadata = {
             count,
             totalPages,

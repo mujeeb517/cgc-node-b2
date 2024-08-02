@@ -1,14 +1,23 @@
 const Product = require('../models/productModel');
 
-const getCount = () => {
-    return Product.countDocuments();
+const getCount = (search) => {
+    const filter = {};
+    if (search) {
+        filter.$or = [{ brand: search }, { model: search }];
+    }
+    return Product.countDocuments(filter);
 };
 
-const getAll = (currentPage, pageSize) => {
+const getAll = (currentPage, pageSize, search) => {
     const recordsToSkip = (currentPage - 1) * pageSize;
 
+    const filter = {};
+    if (search) {
+        filter.$or = [{ brand: search }, { model: search }];
+    }
+
     return Product
-        .find({}, { __v: 0 })
+        .find(filter, { __v: 0 })
         .skip(recordsToSkip)
         .limit(pageSize);
 };
