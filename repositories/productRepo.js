@@ -15,11 +15,12 @@ const getCount = (search) => {
     return Product.countDocuments(filter);
 };
 
-const getAll = (currentPage, pageSize, search) => {
+const getAll = (currentPage, pageSize, search, sort, direction) => {
     const recordsToSkip = (currentPage - 1) * pageSize;
     const filter = getFilter(search);
     return Product
         .find(filter, { __v: 0 })
+        .sort({ [sort]: direction.toLowerCase() })
         .skip(recordsToSkip)
         .limit(pageSize);
 };

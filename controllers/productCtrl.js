@@ -4,11 +4,14 @@ const getAll = async (req, res) => {
     const currentPage = +req.params.page || 1;
     const pageSize = +req.params.limit || 10;
     const search = req.query.search || '';
+    const sort = req.query.sort || 'updatedDate';
+    const direction = req.query.direction || 'desc';
+
     try {
         const count = await productRepo.getCount(search);
         const totalPages = Math.ceil(count / pageSize);
 
-        const data = await productRepo.getAll(currentPage, pageSize, search);
+        const data = await productRepo.getAll(currentPage, pageSize, search, sort, direction);
         const metadata = {
             count,
             totalPages,
@@ -21,6 +24,7 @@ const getAll = async (req, res) => {
         res.status(200);
         res.json(response);
     } catch (err) {
+        console.error(err);
         res.status(500);
         res.send('Internal server error');
     }
