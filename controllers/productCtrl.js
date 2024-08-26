@@ -11,7 +11,15 @@ const getAll = async (req, res) => {
         const count = await productRepo.getCount(search);
         const totalPages = Math.ceil(count / pageSize);
 
-        const data = await productRepo.getAll(currentPage, pageSize, search, sort, direction);
+        const options = {
+            currentPage,
+            pageSize,
+            search,
+            sort,
+            direction
+        };
+
+        const data = await productRepo.getAll(options);
         const metadata = {
             count,
             totalPages,

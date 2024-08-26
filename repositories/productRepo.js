@@ -15,7 +15,8 @@ const getCount = (search) => {
     return Product.countDocuments(filter);
 };
 
-const getAll = (currentPage, pageSize, search, sort, direction) => {
+const getAll = (options) => {
+    const { currentPage, pageSize, search, sort, direction } = options;
     const recordsToSkip = (currentPage - 1) * pageSize;
     const filter = getFilter(search);
     return Product
