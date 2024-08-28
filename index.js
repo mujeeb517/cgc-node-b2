@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const homeRoutes = require('./routes/homeRoutes');
 const productRoutes = require('./routes/productRoutes');
+const { basicAuth } = require('./middlewares/auth');
 
 const app = express();
 
@@ -13,5 +14,10 @@ mongoose.connect('mongodb://localhost:27017/cgc-b2')
 
 app.use(express.json());
 
+// public routes
 app.use('/', homeRoutes);
+
+app.use(basicAuth);
+
+// private routes
 app.use('/api/v1/products', productRoutes);

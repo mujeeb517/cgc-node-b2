@@ -92,3 +92,8 @@ module.exports = {
     put,
     patch,
 };
+
+
+// Authentication: identifying, PIN, Fingerprint, FaceId, credentials(username & password) 
+// Basic, Token
+// Authorisation: permission
