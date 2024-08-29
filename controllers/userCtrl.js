@@ -1,5 +1,5 @@
 const userRepo = require('../repositories/userRepo');
-
+const bcrypt = require('bcryptjs');
 
 const accountExists = err => err.message.indexOf('duplicate key error') > -1;
 
@@ -9,6 +9,7 @@ const signup = async (req, res) => {
         body.createdDate = new Date();
         body.updatedDate = new Date();
         body.active = true; // send activation email
+        body.password = await bcrypt.hash(body.password, 2);
 
         await userRepo.create(body);
         res.status(201);
