@@ -11,6 +11,7 @@ const signup = async (req, res) => {
         body.createdDate = new Date();
         body.updatedDate = new Date();
         body.active = true; // send activation email
+        body.role = 'User';
         body.password = await bcrypt.hash(body.password, 2);
 
         await userRepo.create(body);

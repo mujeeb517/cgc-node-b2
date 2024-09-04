@@ -30,18 +30,28 @@ function basicAuth(req, res, next) {
 
 function tokenAuth(req, res, next) {
     try {
-        const authorization = req.headers.authorization; 
+        const authorization = req.headers.authorization;
         const tokens = authorization.split(' ');
         const jwtToken = tokens[1];
         const decoded = jwt.verify(jwtToken, config.jwtSecret);
-        console.log(decoded);
+        req.decodedToken = decoded;
         next();
     } catch (err) {
         res.status(401).json({ message: 'Unauthorised' });
     }
 }
 
+function authoriseAdmin(req, res, next) {
+    const { role } = req.decodedToken;
+    if (role === 'Admin') next();
+    else
+        return res
+            .status(403)
+            .json({ message: 'You are not authorised to perform this operation' });
+}
+
 module.exports = {
     basicAuth,
     tokenAuth,
+    authoriseAdmin,
 };
