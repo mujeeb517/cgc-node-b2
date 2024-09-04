@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const homeRoutes = require('./routes/homeRoutes');
 const productRoutes = require('./routes/productRoutes');
 const userRoutes = require('./routes/userRoutes');
-const { basicAuth } = require('./middlewares/auth');
+const { basicAuth, tokenAuth } = require('./middlewares/auth');
 
 const app = express();
 
@@ -20,6 +20,7 @@ app.use('/', homeRoutes);
 app.use('/api/v1/users', userRoutes);
 
 // app.use(basicAuth);
+app.use(tokenAuth);
 
 // private routes
 app.use('/api/v1/products', productRoutes);

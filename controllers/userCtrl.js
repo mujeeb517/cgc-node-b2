@@ -1,5 +1,7 @@
 const userRepo = require('../repositories/userRepo');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const config = require('../config');
 
 const accountExists = err => err.message.indexOf('duplicate key error') > -1;
 
@@ -23,7 +25,29 @@ const signup = async (req, res) => {
     }
 };
 
+const signin = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        const dbUser = await userRepo.getUserByEmail(email);
+        if (!dbUser) {
+            return res.status(401).json({ message: 'Unuthorised' });
+        }
+        const isValid = await bcrypt.compare(password, dbUser.password);
+        if (isValid) {
+            const token = jwt.sign({ email: dbUser.email, role: dbUser.role }, config.jwtSecret, {
+                expiresIn: '1d'
+            });
+            res.status(200).send({ token: token });
+        } else {
+            res.status(401).json({ message: 'Unuthorised' });
+        }
+    } catch (err) {
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
 
 module.exports = {
-    signup
+    signup,
+    signin,
 };

@@ -1,4 +1,5 @@
-
+const jwt = require('jsonwebtoken');
+const config = require('../config');
 // middleware: function, 3 parameters
 // register middleware
 function basicAuth(req, res, next) {
@@ -27,7 +28,20 @@ function basicAuth(req, res, next) {
     }
 }
 
+function tokenAuth(req, res, next) {
+    try {
+        const authorization = req.headers.authorization; 
+        const tokens = authorization.split(' ');
+        const jwtToken = tokens[1];
+        const decoded = jwt.verify(jwtToken, config.jwtSecret);
+        console.log(decoded);
+        next();
+    } catch (err) {
+        res.status(401).json({ message: 'Unauthorised' });
+    }
+}
 
 module.exports = {
-    basicAuth
+    basicAuth,
+    tokenAuth,
 };
