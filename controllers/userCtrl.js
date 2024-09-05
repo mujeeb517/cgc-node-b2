@@ -1,12 +1,14 @@
 const userRepo = require('../repositories/userRepo');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const logger = require('../utils/logger');
 const config = require('../config');
 
 const accountExists = err => err.message.indexOf('duplicate key error') > -1;
 
 const signup = async (req, res) => {
     try {
+        logger.info('user creation initiated');
         const body = req.body;
         body.createdDate = new Date();
         body.updatedDate = new Date();
@@ -15,10 +17,11 @@ const signup = async (req, res) => {
         body.password = await bcrypt.hash(body.password, 2);
 
         await userRepo.create(body);
+        logger.info('user creation success');
         res.status(201);
         res.json({ message: 'Created' });
     } catch (err) {
-        console.log(err);
+        logger.error(err);
         if (accountExists(err)) {
             res.status(409).json({ message: 'Email already exist' });  // conflict
         }

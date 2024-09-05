@@ -1,6 +1,8 @@
 const productRepo = require('../repositories/productRepo');
+const logger = require('../utils/logger');
 
 const getAll = async (req, res) => {
+    logger.info('Get products api is called');
     const currentPage = +req.params.page || 1;
     const pageSize = +req.params.limit || 10;
     const search = req.query.search || '';
@@ -29,8 +31,10 @@ const getAll = async (req, res) => {
             metadata,
             data,
         };
+        logger.info('Products data is fetched');
         res.status(200);
         res.json(response);
+        logger.info('Response is sent back');
     } catch (err) {
         console.error(err);
         res.status(500);
@@ -64,6 +68,7 @@ const post = async (req, res) => {
         res.status(201);
         res.send('Successfully created');
     } catch (err) {
+        logger.error(err);
         if (err.message.indexOf('validation failed') > -1) {
             res.status(400).json(prepareValidationErrors(err.errors));
         } else
