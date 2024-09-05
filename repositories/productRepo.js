@@ -1,6 +1,5 @@
 const Product = require('../models/productModel');
 
-
 const getFilter = (search) => {
     return {
         $or: [

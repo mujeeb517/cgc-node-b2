@@ -1,10 +1,15 @@
 const mongoose = require('mongoose');
 
 const schema = new mongoose.Schema({
-    brand: String,
-    model: String,
-    price: Number,
-    inStock: Boolean,
+    brand: {
+        type: String,
+        required: [true, 'Brand is mandatory'],
+        minLength: [3, 'Brand should be min 3 chars'],
+        maxLength: [20, 'Brand should be max 20 chars']
+    },
+    model: { type: String, required: [true, 'Model is required'] },
+    price: { type: Number, required: [true, 'Price is required'] },
+    inStock: { type: Boolean, default: false },
     discount: Number,
     createdDate: Date,
     updatedDate: Date,

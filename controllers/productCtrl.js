@@ -50,10 +50,26 @@ const getById = async (req, res) => {
     }
 };
 
+
+const prepareValidationErrors = (errors) => {
+    const msgs = [];
+    for (let key in errors) {
+        msgs.push(errors[key].message);
+    }
+    return msgs;
+};
+
 const post = async (req, res) => {
-    await productRepo.create(req.body);
-    res.status(201);
-    res.send('Successfully created');
+    try {
+        await productRepo.create(req.body);
+        res.status(201);
+        res.send('Successfully created');
+    } catch (err) {
+        if (err.message.indexOf('validation failed') > -1) {
+            res.status(400).json(prepareValidationErrors(err.errors));
+        } else
+            res.status(500).json({ message: 'Internal server error' });
+    }
 };
 
 const remove = async (req, res) => {

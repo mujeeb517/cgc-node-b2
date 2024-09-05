@@ -18,8 +18,12 @@ const signup = async (req, res) => {
         res.status(201);
         res.json({ message: 'Created' });
     } catch (err) {
+        console.log(err);
         if (accountExists(err)) {
-            res.status(400).json({ message: 'Email already exist' });
+            res.status(409).json({ message: 'Email already exist' });  // conflict
+        }
+        else if (err.message.indexOf('validation failed') > -1) {
+            res.status(400).json(err.errors);
         } else {
             res.status(500).json({ message: 'Internal server error' });
         }
