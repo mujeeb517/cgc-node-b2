@@ -50,7 +50,6 @@ const getById = async (req, res) => {
     }
 };
 
-
 const prepareValidationErrors = (errors) => {
     const msgs = [];
     for (let key in errors) {
@@ -108,7 +107,6 @@ module.exports = {
     put,
     patch,
 };
-
 
 // Authentication: identifying, PIN, Fingerprint, FaceId, credentials(username & password) 
 // Basic, Token
