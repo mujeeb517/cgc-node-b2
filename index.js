@@ -10,7 +10,8 @@ const userRoutes = require('./routes/userRoutes');
 
 const app = express();
 
-app.listen(3000, () => console.log('Server is running 3000'));
+const port = process.env.PORT || 3000;
+app.listen(port, () => console.log('Server is running 3000'));
 
 mongoose.connect(config.dbConStr)
     .then(() => console.log('db connected successfully'))
