@@ -104,6 +104,18 @@ const patch = async (req, res) => {
     res.send();
 };
 
+const postReview = async (req, res) => {
+    try {
+        req.body.createdDate = new Date();
+        req.body.updatedDate = new Date();
+        await productRepo.addReview(req.body);
+        res.status(201).json({ message: 'Created' });
+    } catch (err) {
+        logger.error(err);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
 module.exports = {
     getAll,
     post,
@@ -111,8 +123,5 @@ module.exports = {
     remove,
     put,
     patch,
+    postReview,
 };
-
-// Authentication: identifying, PIN, Fingerprint, FaceId, credentials(username & password) 
-// Basic, Token
-// Authorisation: permission

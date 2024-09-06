@@ -13,4 +13,6 @@ router.delete('/:id', authoriseAdmin, productCtrl.remove);
 router.put('/:id', authoriseAdmin, productCtrl.put);
 router.patch('/:id', authoriseAdmin, productCtrl.patch);
 
+router.post('/reviews', productCtrl.postReview);
+
 module.exports = router;
