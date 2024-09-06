@@ -46,8 +46,15 @@ const getById = async (req, res) => {
     try {
         const id = req.params.id;
         const data = await productRepo.getById(id);
+        const reviews = await productRepo.getReviewsByProductId(id);
+
+        const response = {
+            ...data._doc,
+            reviews,
+        };
+
         res.status(200);
-        res.json(data);
+        res.json(response);
     } catch (err) {
         res.status(500);
         res.send('Internal server error');
