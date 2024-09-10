@@ -47,9 +47,13 @@ const getById = async (req, res) => {
         const id = req.params.id;
         const data = await productRepo.getById(id);
         const reviews = await productRepo.getReviewsByProductId(id);
+        const avgRating = await productRepo.getAvgRating(id);
+
+        const rating = avgRating.length ? avgRating[0].average : undefined;
 
         const response = {
             ...data._doc,
+            rating,
             reviews,
         };
 
