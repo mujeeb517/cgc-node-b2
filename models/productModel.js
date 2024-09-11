@@ -15,4 +15,7 @@ const schema = new mongoose.Schema({
     updatedDate: Date,
 });
 
+schema.index({ brand: 1 });
+schema.index({ model: 1 });
+
 module.exports = mongoose.model('products', schema);
