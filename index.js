@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const morgan = require('morgan');
 const fs = require('fs');
 const path = require('path');
+const cors = require('cors');
 const config = require('./config');
 const homeRoutes = require('./routes/homeRoutes');
 const productRoutes = require('./routes/productRoutes');
@@ -16,6 +17,8 @@ app.listen(port, () => console.log('Server is running 3000'));
 mongoose.connect(config.dbConStr)
     .then(() => console.log('db connected successfully'))
     .catch(err => console.error(err));
+
+app.use(cors());
 
 // Terminal
 app.use(morgan('dev'));
