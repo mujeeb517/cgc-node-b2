@@ -45,7 +45,7 @@ const signin = async (req, res) => {
             const token = jwt.sign({ email: dbUser.email, role: dbUser.role }, config.jwtSecret, {
                 expiresIn: '1d'
             });
-            res.status(200).send({ token: token });
+            res.status(200).send({ firstName: dbUser.firstName, lastName: dbUser.lastName, token: token });
         } else {
             res.status(401).json({ message: 'Unuthorised' });
         }
