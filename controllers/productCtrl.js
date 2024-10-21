@@ -22,6 +22,11 @@ const getAll = async (req, res) => {
         };
 
         const data = await productRepo.getAll(options);
+
+        for (let i = 0; i < data.length; i++) {
+            data[i].image = data[i].image ? `${req.protocol}://${req.get('host')}/${data[i].image}` : undefined;
+        }
+
         const metadata = {
             count,
             totalPages,

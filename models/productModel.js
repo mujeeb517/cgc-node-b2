@@ -10,6 +10,7 @@ const schema = new mongoose.Schema({
     model: { type: String, required: [true, 'Model is required'] },
     price: { type: Number, required: [true, 'Price is required'] },
     inStock: { type: Boolean, default: false },
+    image: { type: String },
     discount: Number,
     createdDate: Date,
     updatedDate: Date,

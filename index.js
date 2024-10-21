@@ -35,12 +35,14 @@ app.use(morgan('combined', { stream: logFileStream }));
 
 app.use(express.json());
 
+app.use(express.static('uploads/'));
+
 // public routes
 app.use('/', homeRoutes);
 app.use('/api/v1/users', userRoutes);
 
 // app.use(basicAuth);
-app.use(tokenAuth);
+// app.use(tokenAuth);
 
 // private routes
 app.use('/api/v1/products', productRoutes);
