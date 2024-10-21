@@ -42,7 +42,7 @@ app.use('/', homeRoutes);
 app.use('/api/v1/users', userRoutes);
 
 // app.use(basicAuth);
-// app.use(tokenAuth);
+app.use(tokenAuth);
 
 // private routes
 app.use('/api/v1/products', productRoutes);
